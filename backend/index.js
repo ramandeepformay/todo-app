@@ -16,7 +16,8 @@ app.post("/todos", async (req, res)=>{
     }
 
     await Todo.create({
-        parsedPayLoad,
+        title:createPayLoad.title,
+        description:createPayLoad.description,
         completed:false
     })
     res.json({
@@ -32,7 +33,7 @@ app.get("/todos", async (req, res)=>{
     })
 })
 
-app.put("/completed", (req,res)=>{
+app.put("/completed", async (req,res)=>{
     const updatePayLoad = req.body;
     const parsedPayLoad =  updateTodo.safeParse(updatePayLoad);
     if(!parsedPayLoad.success){
@@ -41,8 +42,14 @@ app.put("/completed", (req,res)=>{
         })
         return;
     }
-
-
+    const todoId = await Todo.updateOne({
+        _id:updatePayLoad.id
+    },{
+        completed:true
+    })
+    res.json({
+        msg:"Set to done"
+    })
 })
 
 app.listen(3004, ()=>{
