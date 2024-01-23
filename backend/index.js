@@ -8,6 +8,7 @@ app.use(express.json());
 app.post("/todos", async (req, res)=>{
     const createPayLoad = req.body;
     const parsedPayLoad = createTodo.safeParse(createPayLoad);
+
     if(!parsedPayLoad.success){
         res.json(411).json({
             msg: "You send the wrong inputs"
@@ -52,6 +53,6 @@ app.put("/completed", async (req,res)=>{
     })
 })
 
-app.listen(3004, ()=>{
+app.listen(3000, ()=>{
    console.log("server is running")
 })
